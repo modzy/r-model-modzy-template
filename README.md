@@ -1,32 +1,34 @@
-# Modzy Public Repository Template
+# R gRPC Model Template
 
 ![Modzy Logo](https://www.modzy.com/wp-content/uploads/2020/06/MODZY-RGB-POS.png)
 
 <div align="center">
 
-**This is a template for all public-facing repositories that includes a README, contributing doc, license, and code of conduct. Replace this description with a relevant one for your repository.**
+**This is a gRPC + HTTP/2 template that can be used to easily produce machine learning models written using R that can be deployed to the Modzy platform.**
 
 ![GitHub contributors](https://img.shields.io/github/contributors/modzy/public-repo-starter-template)
 ![GitHub last commit](https://img.shields.io/github/last-commit/modzy/public-repo-starter-template)
 ![GitHub Release Date](https://img.shields.io/github/issues-raw/modzy/public-repo-starter-template)
 
-[Link to related or similar repositories](<insert link here>) | [Link to related or similar repositories](<insert link here>) | [Link to related or similar repositories](<insert link here>)
+[Python gRPC Model Template](https://github.com/modzy/grpc-model-template) | Python HTTP Model Template(https://github.com/modzy/python-model-template)
 </div>
 
+### Template Overview
 
-## Template Usage Instructions
+Description of top-level contents
+```
+.
+├── Dockerfile           # Used to run and release your model in a docker container
+├── README.md            # Documentation for the template repository
+├── asset_bundle         # Metadata for each version of your model used to package and release your model
+├── grpc_model           # Library for the gRPC server (leverages rpy2 package to connect model R script to Python gRPC server
+├── model_lib            # Library for your R machine learning model and its Modzy Wrapper
+├── protos               # Protocol buffer used by the gRPC server and client
+├── requirements.txt     # Example of a Python Requirements file with minimum dependencies
+└── scripts              # Location to store shell scripts
+```
 
-#### Update README.adoc
-- Replace the title at the top of this README with your repo title
-- In the header of this README, replace "public-repo-starter-template" with your repo name in lines 9-11
-- Optionally, add related or referenced repos in line 13
-- Replace this section with whatever is relevant for your repository
-- Modify "Table of Contents" section below to fit your repository
-- In the "Contributing" section below, replace the link with the contributing file in your repository
-- In the "Code of conduct" section below, replace the link with the code of conduct file in your repository
-
-#### Update CONTRIBUTING.adoc
-- In the CONTRIBUTING doc, replace all instances of "public-repo-starter-template" with your repository name
+## Usage
 
 ## Table of contents
 
