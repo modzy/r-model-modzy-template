@@ -1,8 +1,7 @@
 library(jsonlite)
 # Add additional libraries and packages here as needed
 
-
-# The required output structure for a successful inference run for a models is the following vector:
+# The required output structure for a successful inference run for a model is the following vector:
 
 # output <- c(
 #     "data" <- c(
@@ -19,6 +18,7 @@ library(jsonlite)
 # This format type must be specified in the model.yaml file for the version that you are releasing, and the structure for
 # this format type must be followed. If no formats are specified, it is possible to define your own custom structure on a
 # per-model basis.
+
 # The required output structure for a failed inference run for a models is the following vector:
 
 # errors <- c(
@@ -30,13 +30,21 @@ library(jsonlite)
 
 # Utility function to help format your output correctly before returning the results from your model S4 class  
 get_success_json_structure <- function(inference, explanation, drift) {
-    output_item_list <- c("data" = c("result" = inference, "explanation" = explanation, "drift" = drift)) # nolint
+    output_item_list <- c(
+        "data" = c(
+            "result" = inference, 
+            "explanation" = explanation, 
+            "drift" = drift
+        )
+    ) 
     return(output_item_list)
 }
 
 # Utility function to help format any errors accumulated during inference before returning the results from your model S4 class
 get_failure_json_structure <- function(error_message) {
-    error_list <- c("error_message" = error_message)
+    error_list <- c(
+        "error_message" = error_message
+    )
     return(error_list)
 }
 
@@ -76,14 +84,14 @@ r_model_class <- setRefClass(
             # inference, drift, and explainability results where appropriate.            
 
             # The following walks through an example of how a user may implement a model inference flow
+            # from data ingest to returning predictions
 
             # run inference on single input
-            # define name(s) of inputs as defined in model.yaml file
-            input_filename <- "input.txt"
+            input_filename <- "input.txt" # modify based on the input filename(s) defind in the model.yaml file
             input_data <- model_input[[input_filename]]
 
             # send input data through custom preprocesing or postprocessing
-            # methods, including your model for inference
+            # methods, if relevant, including your model for inference
             preprocessed_data <- preprocess(input_data)
             inference_result <- postprocess(preprocessed_data)
 
@@ -99,7 +107,7 @@ r_model_class <- setRefClass(
                 drift_result <- "None"
             } else {
                 # add conditional processing here as needed
-                drift_result <- "None" # change to custom explanations
+                drift_result <- "None" # change to custom input drift calculations 
             }
 
             # combine inference result, drift result, and explanation result
