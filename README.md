@@ -15,6 +15,8 @@
 
 ### Template Overview
 
+This template is an R implementation of the [Python gRPC Model Template](https://github.com/modzy/grpc-model-template) for users who prefer to develop models using the R language. It leverages much of the python code in the Python template and the [rpy2](https://rpy2.github.io/) utility package which serves as a bridge between the Python and R languages. This gives developers the ability to include their R model code without having to know Python and still take advantage of gRPC.
+
 Description of top-level contents
 ```
 .
@@ -22,7 +24,7 @@ Description of top-level contents
 ├── README.md            # Documentation for the template repository
 ├── asset_bundle         # Metadata for each version of your model used to package and release your model
 ├── grpc_model           # Library for the gRPC server (leverages rpy2 package to connect model R script to Python gRPC server)
-├── model_lib            # Library for your R machine learning model and its Modzy Wrapper
+├── model_lib            # Library for your R machine learning model and its Modzy Wrapper (model_lib/src/model.R)
 ├── protos               # Protocol buffer used by the gRPC server and client
 ├── requirements.txt     # Example of a Python Requirements file with minimum dependencies
 └── scripts              # Location to store shell scripts
