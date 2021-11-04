@@ -13,7 +13,7 @@ library(jsonlite)
 # )
 
 # The parent level `data` value is required and stores a nested vector which represents the output for a specific input. 
-#  The only top-level name within these dictionaries that is required is `result`, however, `explanation` and `drift` are 
+# The only top-level name within these dictionaries that is required is `result`, however, `explanation` and `drift` are 
 # additional names that may be included if your particular model supports drift detection or explainability. All three of these names
 # (`result`, `explanation`, and `drift`) are required to have a particular format in order to provide platform support.
 # This format type must be specified in the model.yaml file for the version that you are releasing, and the structure for
