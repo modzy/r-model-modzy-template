@@ -4,7 +4,7 @@ FROM rpy2/base-ubuntu:latest
 # Create the application working directory
 WORKDIR /opt/app
 
-# Install 
+# Install and updated linux packages 
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
     build-essential \
