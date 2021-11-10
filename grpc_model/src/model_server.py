@@ -7,6 +7,7 @@ from concurrent import futures
 from time import time as t
 from typing import Dict, List
 import rpy2.robjects as ro
+from rpy2.robjects import pandas2ri
 
 import grpc
 
@@ -48,19 +49,13 @@ def log_stack_trace():
     # TODO: we could potentially extract even more information from: stack_trace = e.__traceback__ if we notice
     #   that things are very hard to debug from the platform in the current state.
     stack_trace_formatted = traceback.format_exc()
-    LOGGER.critical(stack_trace_formatted)
+    LOGGER.critical(stack_trace_formatted)   
 
 # define function that converts python dictionary of bytes to r list
 def dict_to_rlist(python_dict):
-    pairs = []
-    for k,v in python_dict.items():
-        if isinstance(v, str):
-            pairs.append("{}=\"{}\"".format(k, v))
-        else:
-            pairs.append("{}={}".format(k, v))
-    r_cmd = "list({})".format(",".join(pairs))
-    r_list = ro.r(r_cmd)
-    return r_list    
+    # convert input dictionary (single input or batch input of bytes) to R list to process
+    r_list_all = ro.ListVector([(k,v) for input in python_dict for k,v in input.items()])
+    return r_list_all 
 
 # define r output object to python conversion function
 def r_list_to_py_dict(r_list):
@@ -245,9 +240,9 @@ class ModzyModel(ModzyModelServicer):
             current_batch_size = len(request.inputs)
             if current_batch_size > 1:
                 try:
-                    # TODO: Add support for this method. Below is from Python template                   
+                    input_batch = [{k:v.decode() for input_item in request.inputs for k,v in input_item.input.items()}]
                     raw_outputs = ro.baseenv["$"](self.model, "handle_input_batch")(
-                        [input_item.input for input_item in request.inputs],
+                        dict_to_rlist(input_batch),
                         request.detect_drift,
                         request.explain
                     )
@@ -279,7 +274,7 @@ class ModzyModel(ModzyModelServicer):
             if not batch_process:
                 for i, input_item in enumerate(request.inputs):
                     try:
-                        inputs = {k:v.decode() for k,v in input_item.input.items()}
+                        inputs = [{k:v.decode() for k,v in input_item.input.items()}]
                         raw_outputs = ro.baseenv["$"](self.model, "handle_single_input")(
                             dict_to_rlist(inputs),
                             ro.vectors.BoolVector([request.detect_drift]),

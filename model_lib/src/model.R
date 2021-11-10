@@ -64,6 +64,9 @@ r_model_class <- setRefClass(
             processed_inputs <- paste(inputs, "plus preprocessing!", sep = " ")
             return(processed_inputs)
         },
+        run_inference = function(data) {
+            return(data)
+        },
         postprocess = function(raw_model_output) {
             # This is a sample data postprocessing method that can optionally be used if any results postprocessing is required 
             # during inference. If not relevant, the method can be deleted.
@@ -91,9 +94,10 @@ r_model_class <- setRefClass(
             input_data <- model_input[[input_filename]]
 
             # send input data through custom preprocesing or postprocessing
-            # methods, if relevant, including your model for inference
+            # methods, if relevant, and through your model for inference
             preprocessed_data <- preprocess(input_data)
-            inference_result <- postprocess(preprocessed_data)
+            predictions <- run_inference(preprocessed_data)
+            inference_result <- postprocess(predictions)
 
             # add custom explainability or drift outputs here as needed if
             # detect_drift or explain flags are set to TRUE
